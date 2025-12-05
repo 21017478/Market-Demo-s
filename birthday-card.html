@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@500;700&display=swap');
+
+        :root {
+            --card-width: 85vw;
+            --card-height: 120vw;
+            --max-width: 320px;
+            --max-height: 450px;
+            --primary-bg: #fffbfb;
+            --accent: #ff5e5e;
+            --text-main: #222222;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #2c2c2c;
+            background-image:
+                radial-gradient(circle at 50% 50%, #3a3a3a 0%, #2c2c2c 100%);
+            font-family: 'Playfair Display', serif;
+            overflow: hidden;
+            perspective: 1200px;
+        }
+
+        /* The Card Container */
+        .card {
+            width: var(--card-width);
+            height: var(--card-height);
+            max-width: var(--max-width);
+            max-height: var(--max-height);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+        }
+
+        .card:not(.is-open) {
+            transform: rotateY(0deg) rotateX(10deg);
+        }
+
+        .card.is-open {
+            transform: translateX(50%) rotateY(0deg);
+        }
+
+        @media (max-width: 600px) {
+            .card.is-open {
+                transform: translateX(0) rotateY(0deg);
+                z-index: 100;
+            }
+        }
+
+        /* --- PAGES --- */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border-radius: 5px 10px 10px 5px;
+            transform-style: preserve-3d;
+            transform-origin: left center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+            /* Lighter Texture */
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 1.79 4 4 1.79 4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 1.79 4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 1.79 4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        /* --- FRONT COVER --- */
+        .front-cover {
+            z-index: 10;
+            transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .card.is-open .front-cover {
+            transform: rotateY(-180deg);
+        }
+
+        .front-face,
+        .back-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px 10px 10px 5px;
+        }
+
+        .front-face {
+            background-color: var(--primary-bg);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Subtle Lighting */
+        .lighting-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 20%, rgba(0, 0, 0, 0.05) 100%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1.2s;
+        }
+
+        .card.is-open .lighting-layer {
+            opacity: 1;
+        }
+
+        .photo-wrapper {
+            width: 75%;
+            height: 55%;
+            background: white;
+            padding: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transform: rotate(-3deg);
+            margin-bottom: 25px;
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover .photo-wrapper {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .photo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 1px solid #f0f0f0;
+        }
+
+        h1.title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            color: var(--accent);
+            text-shadow: 1px 1px 0px rgba(255, 255, 255, 1);
+            margin: 0;
+        }
+
+        .tap-msg {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.9rem;
+            color: #888;
+            letter-spacing: 1px;
+            animation: pulse-op 2s infinite;
+        }
+
+        /* --- INNER LEFT --- */
+        .back-face {
+            transform: rotateY(180deg);
+            background: #fff;
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+            /* Spine */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pattern-heart {
+            font-size: 5rem;
+            color: var(--primary-bg);
+            opacity: 0.5;
+        }
+
+        /* --- BACK COVER (Content) --- */
+        .back-cover {
+            z-index: 1;
+            /* Lighter Gradient */
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0) 8%, #fff 100%);
+            padding: 30px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-main);
+        }
+
+        .poem {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-style: italic;
+            font-weight: 500;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .main-msg {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.3rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 1);
+        }
+
+        .sign-off {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #000;
+        }
+
+        @keyframes pulse-op {
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body onclick="toggleCard()">
+
+    <div class="card" id="card">
+        <div class="front-cover page">
+            <div class="front-face">
+                <div class="lighting-layer"></div>
+                <div class="photo-wrapper">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                        alt="Birthday Person">
+                </div>
+                <h1 class="title">Happy Birthday!</h1>
+                <div class="tap-msg">Tap to Open</div>
+            </div>
+
+            <div class="back-face">
+                <div class="lighting-layer"></div>
+                <div class="pattern-heart">♥</div>
+            </div>
+        </div>
+
+        <div class="back-cover page">
+            <div class="poem">
+                "Another year has come and gone,<br>
+                But our love keeps shining on.<br>
+                May your day be bright and true,<br>
+                Just like the love I have for you."
+            </div>
+            <div class="main-msg">Happy Birthday My Love</div>
+            <div class="sign-off">Love Dan xx</div>
+        </div>
+    </div>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <script>
+        const card = document.getElementById('card');
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let isOpen = false;
+        let confettiPieces = [];
+
+        function toggleCard() {
+            isOpen = !isOpen;
+            if (isOpen) {
+                card.classList.add('is-open');
+                setTimeout(startConfetti, 300);
+            } else {
+                card.classList.remove('is-open');
+            }
+        }
+
+        function startConfetti() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            confettiPieces = [];
+            for (let i = 0; i < 60; i++) {
+                confettiPieces.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    w: Math.random() * 8 + 4,
+                    h: Math.random() * 8 + 4,
+                    color: `hsla(${Math.random() * 360}, 70%, 50%, 0.7)`,
+                    vy: Math.random() * 3 + 2,
+                    vx: Math.random() * 2 - 1,
+                    r: Math.random() * 360,
+                    rotSpeed: Math.random() * 10 - 5
+                });
+            }
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            if (confettiPieces.length === 0) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            confettiPieces.forEach((p, i) => {
+                p.y += p.vy;
+                p.x += p.vx;
+                p.r += p.rotSpeed;
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.r * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                ctx.restore();
+
+                if (p.y > canvas.height) {
+                    if (isOpen) {
+                        // Recycle
+                        p.y = -20;
+                        p.x = Math.random() * canvas.width;
+                    } else {
+                        confettiPieces.splice(i, 1);
+                    }
+                }
+            });
+
+            if (confettiPieces.length > 0) requestAnimationFrame(animateConfetti);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+
+</html>
