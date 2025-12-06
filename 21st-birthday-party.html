@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>21st Birthday Celebration</title>
+    <!-- NFC Gift Card: 21st Birthday for [Name] -->
+    <!-- Created: 2024-05-21 -->
+    <!-- Customize: Change Name, Message, and Signature -->
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;800&family=Poppins:wght@300;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-pink: #FF1493;
+            --soft-pink: #FF69B4;
+            --gold: #FFD700;
+            --bg-start: #FFFFFF;
+            --bg-end: #FFE6F0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body,
+        html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+        }
+
+        /* Canvas for Confetti */
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        /* The Big "21" */
+        .number-wrapper {
+            position: relative;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .big-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 8rem;
+            font-weight: 800;
+            line-height: 1;
+            background: linear-gradient(45deg, var(--primary-pink), var(--gold), var(--soft-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            /* Drop shadow for depth */
+            filter: drop-shadow(0px 10px 15px rgba(255, 105, 180, 0.4));
+            animation: pulseGlow 2s infinite ease-in-out;
+            transform-origin: center;
+        }
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0px 10px 15px rgba(255, 105, 180, 0.4));
+            }
+
+            50% {
+                transform: scale(1.05);
+                filter: drop-shadow(0px 10px 25px rgba(255, 215, 0, 0.6));
+            }
+        }
+
+        /* Entrance Animation for "21" */
+        .entrance-anim {
+            animation: bounceIn 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0) rotate(-720deg);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.1) rotate(10deg);
+                opacity: 1;
+            }
+
+            80% {
+                transform: scale(0.95) rotate(-5deg);
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        /* Text Content */
+        h1.greeting {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: var(--primary-pink);
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: slideUp 0.8s ease forwards 1s;
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            border-radius: 20px;
+            max-width: 85%;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.15);
+            opacity: 0;
+            animation: slideUp 0.8s ease forwards 1.5s;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .message-text {
+            font-size: 1.1rem;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: var(--primary-pink);
+            font-weight: 700;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Specific animations for floaters will be assigned in JS/CSS classes */
+        .float-anim {
+            animation: floatAround 8s infinite linear;
+        }
+
+        @keyframes floatAround {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(10px, -15px) rotate(10deg);
+            }
+
+            50% {
+                transform: translate(0, -25px) rotate(-10deg);
+            }
+
+            75% {
+                transform: translate(-10px, -15px) rotate(5deg);
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        /* Tap Sparkle (Visual Feedback) */
+        .sparkle-tap {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #fff, transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fadeOut 0.6s linear forwards;
+            z-index: 100;
+        }
+
+        @keyframes fadeOut {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-height: 600px) {
+            .big-number {
+                font-size: 6rem;
+            }
+
+            .greeting {
+                font-size: 2rem;
+            }
+
+            .message-text {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <!-- CUSTOMIZE: Greeting Name -->
+        <h1 class="greeting">Happy 21st, Emily!</h1>
+
+        <div class="number-wrapper" id="bigNumber">
+            <div class="big-number entrance-anim">21</div>
+        </div>
+
+        <div class="message-box">
+            <div class="message-text">
+                <!-- CUSTOMIZE: Message Body -->
+                🎉 <strong>Welcome to the club!</strong><br><br>
+                Here's to new adventures, unforgettable nights, and making every moment count.<br>
+                Cheers to you!
+            </div>
+            <div class="signature">
+                <!-- CUSTOMIZE: Sign Off -->
+                Love, Jessica xx
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Elements Wrapper (Absolute positioning) -->
+    <div id="float-layer">
+        <!-- These will be positioned via JS or just CSS randoms -->
+    </div>
+
+    <script>
+        // --- Configuration ---
+        const emojis = ['👠', '💄', '👜', '🎂', '🍾', '✨', '🥂', '💖'];
+        const floatLayer = document.getElementById('float-layer');
+        const bigNumber = document.getElementById('bigNumber');
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // --- Init ---
+        // Create Floating Emojis
+        function createFloaters() {
+            for (let i = 0; i < 8; i++) {
+                const el = document.createElement('div');
+                el.innerText = emojis[i % emojis.length];
+                el.classList.add('floater');
+                el.classList.add('float-anim');
+
+                // Random positioning ensuring they don't cover the center too much
+                // Simple quadrant strategy or just random bounds
+                const x = Math.random() * 80 + 10; // 10% to 90% vw
+                const y = Math.random() * 80 + 10; // 10% to 90% vh
+
+                el.style.left = `${x}%`;
+                el.style.top = `${y}%`;
+
+                // Random delay/duration to desync animations
+                const delay = Math.random() * 5;
+                const duration = 6 + Math.random() * 5;
+                el.style.animationDelay = `${delay}s`;
+                el.style.animationDuration = `${duration}s`;
+
+                floatLayer.appendChild(el);
+            }
+        }
+        createFloaters();
+
+        // --- Confetti Engine ---
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+
+        window.addEventListener('resize', () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        });
+
+        const particles = [];
+        const colors = ['#FF1493', '#FF69B4', '#FFD700', '#00BFFF', '#ADFF2F'];
+
+        class Particle {
+            constructor(x, y, force) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 8 + 4;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                // Explosion velocity
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 10 + 5;
+                this.vx = Math.cos(angle) * speed * force;
+                this.vy = Math.sin(angle) * speed * force - 5; // slightly upward bias
+                this.gravity = 0.2;
+                this.drag = 0.96;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 10 - 5;
+            }
+
+            update() {
+                this.vx *= this.drag;
+                this.vy *= this.drag;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.rotation += this.rotationSpeed;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        // Continuous falling confetti (gentler)
+        class FallingConfetti {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height * -1; // start above screen
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = -10;
+                this.size = Math.random() * 6 + 3;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.vx = Math.random() * 2 - 1; // minor drift
+                this.vy = Math.random() * 2 + 1; // fall speed
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 4 - 2;
+                this.sway = 0;
+                this.swaySpeed = Math.random() * 0.05 + 0.01;
+            }
+
+            update() {
+                this.sway += this.swaySpeed;
+                this.x += Math.sin(this.sway) * 2;
+                this.y += this.vy;
+                this.rotation += this.rotationSpeed;
+                if (this.y > height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        let burstParticles = [];
+        let fallingParticles = [];
+
+        // Add falling confetti (continuous)
+        for (let i = 0; i < 30; i++) {
+            fallingParticles.push(new FallingConfetti());
+        }
+
+        function triggerConfettiBurst(x, y) {
+            for (let i = 0; i < 50; i++) {
+                burstParticles.push(new Particle(x, y, 1.5));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Update Burst
+            for (let i = burstParticles.length - 1; i >= 0; i--) {
+                const p = burstParticles[i];
+                p.update();
+                p.draw();
+                if (p.y > height + 50) {
+                    burstParticles.splice(i, 1);
+                }
+            }
+
+            // Update Falling
+            fallingParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // --- Interactions ---
+
+        // Big "21" Click
+        bigNumber.addEventListener('click', (e) => {
+            // Get center of element for burst origin
+            const rect = bigNumber.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+
+            triggerConfettiBurst(x, y);
+
+            // Re-trigger bounce animation
+            const el = bigNumber.querySelector('.big-number');
+            el.classList.remove('entrance-anim');
+            void el.offsetWidth; // trigger reflow
+            el.style.animation = 'none';
+            setTimeout(() => {
+                el.style.animation = 'pulseGlow 0.3s ease-out, bounceIn 0.5s ease';
+            }, 10);
+        });
+
+        // Global Tap for Sparkles
+        document.addEventListener('click', (e) => {
+            // Don't double trigger if clicking "21" (handled above)
+            // But we want a small sparkle at click point anyway
+
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle-tap');
+            sparkle.style.left = `${e.clientX - 10}px`; // Center
+            sparkle.style.top = `${e.clientY - 10}px`;
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => sparkle.remove(), 600);
+        });
+
+        // Trigger initial burst
+        setTimeout(() => {
+            triggerConfettiBurst(width / 2, height / 2);
+        }, 500);
+
+    </script>
+</body>
+
+</html>

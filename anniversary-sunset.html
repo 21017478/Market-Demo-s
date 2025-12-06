@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Anniversary - Sarah</title>
+    <!-- NFC Gift Card: Anniversary for Sarah -->
+    <!-- Created: 2024-05-21 -->
+    <!-- Customize: Change photo URL, message text, and signature -->
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #FF6B35;
+            --accent-color: #FFD700;
+            --text-color: #FFFFFF;
+            --overlay-color: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Playfair Display', serif;
+            background-color: #000;
+            color: var(--text-color);
+        }
+
+        /* Full Screen Hero with Background */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Background Image */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?q=80&w=2500&auto=format&fit=crop');
+            /* Romantic Sunset */
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            /* Animation: Slow Zoom/Parallax */
+            animation: slowZoom 20s infinite alternate linear;
+            transition: transform 1s ease;
+        }
+
+        @keyframes slowZoom {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.15);
+            }
+        }
+
+        /* Overlay */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.3) 0%,
+                    rgba(0, 0, 0, 0.2) 40%,
+                    rgba(0, 0, 0, 0.7) 100%);
+            z-index: 2;
+        }
+
+        /* Content Container */
+        .content {
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        /* Typography */
+        h1.title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: fadeInDown 1.5s ease forwards 0.5s;
+        }
+
+        .poem {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            line-height: 2;
+            margin-bottom: 3rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            /* Clean Design: No Box */
+            padding: 0;
+            max-width: 100%;
+        }
+
+        .poem p {
+            opacity: 0;
+            transform: translateY(20px);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Staggered Poem Lines & Flower - Slow Reveal */
+        .poem p:nth-child(1) {
+            animation: fadeInUp 1s ease forwards 1.0s;
+        }
+
+        .poem p:nth-child(2) {
+            animation: fadeInUp 1s ease forwards 3.5s;
+        }
+
+        .poem p:nth-child(3) {
+            animation: fadeInUp 1s ease forwards 6.0s;
+        }
+
+        .poem p:nth-child(4) {
+            animation: fadeInUp 1s ease forwards 8.5s;
+        }
+
+        /* Little Flower Animation */
+        .flower-icon {
+            display: block;
+            margin: 10px auto 0;
+            opacity: 0;
+            animation: fadeInFlower 1s ease forwards 10.5s;
+        }
+
+        @keyframes fadeInFlower {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            margin-top: 2rem;
+            color: var(--accent-color);
+            opacity: 0;
+            animation: fadeIn 1.5s ease forwards 3.0s;
+        }
+
+        /* Silhouette Style */
+        .silhouette-container {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            /* Adjust as needed */
+            max-width: 400px;
+            z-index: 5;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards 0.5s;
+            pointer-events: none;
+        }
+
+        .silhouette-svg {
+            width: 100%;
+            height: auto;
+            fill: #000;
+            /* Silhouette color */
+            filter: drop-shadow(0px -5px 10px rgba(255, 107, 53, 0.3));
+            /* Glow */
+        }
+
+        /* Heartbeat Animation for Silhouette */
+        .heart-pulse {
+            transform-origin: center bottom;
+            animation: heartbeat 3s infinite ease-in-out;
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        /* Particles/Stars - CSS only simple implementation */
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: float 5s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Interaction */
+        body.zoomed .bg-image {
+            transform: scale(1.3);
+        }
+
+        /* Music Button */
+        .music-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+        }
+
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 480px) {
+            h1.title {
+                font-size: 2.5rem;
+            }
+
+            .poem {
+                font-size: 1.1rem;
+            }
+
+            .signature {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero" id="hero">
+        <!-- Background -->
+        <div class="bg-image"></div>
+        <div class="overlay"></div>
+
+        <!-- Silhouette SVG (Couple/Heart) -->
+        <div class="silhouette-container heart-pulse">
+            <svg class="silhouette-svg" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M92.71,32.48c-4.97-15.02-23.79-16.71-33.3-3.69c-0.65,0.89-1.92,0.89-2.57,0c-1.37-1.87-2.9-3.56-4.55-5.03C41.57,13.79,41.22,3.31,29.98,0.8c-15.7-3.5-31.02,11.23-28.74,27.09c1.94,13.48,11.45,23.19,20.76,32.18c7.43,7.17,14.88,14.31,22.37,21.41c1.39,1.32,3.59,1.32,4.98,0c9.19-8.72,18.36-17.47,27.53-26.21C85.58,66.97,95.53,53.06,93,39.46c-0.12-0.66-0.21-1.33-0.29-2.0V37.45L92.71,32.48z M48.74,78.23C41.7,71.55,34.7,64.84,27.72,58.1c-9-8.69-18.06-18.15-19.8-31.02C6.1,14.92,17.75,3.95,29.5,6.72c8.95,2.11,10.02,12.01,9.08,19.33c-0.12,0.92,0.51,1.79,1.4,1.96c0.89,0.17,1.77-0.34,2.07-1.21c1.88-5.38,4.72-9.43,8.42-12.7c0.88-0.78,1.8-1.5,2.77-2.15c0.55-0.37,1.26-0.39,1.83-0.06c0.58,0.33,0.89,0.95,0.82,1.61c-0.45,4.2-0.08,9.54,4.64,13.68c0.66,0.58,1.67,0.54,2.28-0.09c0.61-0.63,0.61-1.63-0.01-2.27c-3.14-3.26-3.7-7.23-3.08-10.74c6.76-7.39,19.66-6.49,23.36,3.65c3.27,8.96-1.13,19.98-7.91,26.46C67.54,60.31,58.12,69.29,48.74,78.23z" />
+            </svg>
+        </div>
+
+        <!-- Text Content -->
+        <div class="content">
+            <h1 class="title">Happy Anniversary</h1>
+
+            <div class="poem">
+                <!-- CUSTOMIZE: Poem Lines -->
+                <p>Remembering our walk upon the sand,</p>
+                <p>The ocean breeze, you holding my hand.</p>
+                <p>That perfect sunset in Maui will always be,</p>
+                <p>My favorite memory of you and me.</p>
+
+                <!-- Tiny Flower Animation -->
+                <div class="flower-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path d="M12,2c-1,3-3,5-5,6c-3,1-5,3-5,6c0,3,2,5,5,5c3,0,5-2,5-5c0,1,0,2,0,3c0,3,0,5,0,5"
+                            style="fill:none;stroke:#FF69B4;stroke-width:1;stroke-linecap:round;" />
+                        <path d="M12,2c1,3,3,5,5,6c3,1,5,3,5,6c0,3-2,5-5,5c-3,0-5-2-5-5"
+                            style="fill:none;stroke:#FF69B4;stroke-width:1;stroke-linecap:round;" />
+                        <path d="M12,14c-1,1-3,1-4,0"
+                            style="fill:none;stroke:#FFD700;stroke-width:1;stroke-linecap:round;" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="signature">
+                <!-- CUSTOMIZE: Signature -->
+                Forever Yours,<br>
+                Sarah Xx
+            </div>
+        </div>
+
+        <!-- Music Toggle (Visual Only for Demo) -->
+        <div class="music-btn" title="Toggle Music">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18V5L21 3V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path
+                    d="M6 21C7.65685 21 9 19.6569 9 18C9 16.3431 7.65685 15 6 15C4.34315 15 3 16.3431 3 18C3 19.6569 4.34315 21 6 21Z"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                    d="M18 19C19.6569 19 21 17.6569 21 16C21 14.3431 19.6569 13 18 13C16.3431 13 15 14.3431 15 16C15 17.6569 16.3431 19 18 19Z"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        // Simple Interaction to Zoom
+        const hero = document.getElementById('hero');
+        const musicBtn = document.querySelector('.music-btn');
+        let isMusicPlaying = false; // Mock state
+
+        hero.addEventListener('click', () => {
+            document.body.classList.toggle('zoomed');
+            createParticles();
+        });
+
+        // Music Toggle Mock
+        musicBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent zoom
+            isMusicPlaying = !isMusicPlaying;
+            musicBtn.style.opacity = isMusicPlaying ? '1' : '0.5';
+        });
+
+        // Particle System
+        function createParticles() {
+            for (let i = 0; i < 5; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                // Random position
+                const x = Math.random() * window.innerWidth;
+                const size = Math.random() * 4 + 2;
+                const duration = Math.random() * 3 + 4;
+
+                particle.style.left = `${x}px`;
+                particle.style.bottom = '-10px';
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.animationDuration = `${duration}s`;
+
+                hero.appendChild(particle);
+
+                // Cleanup
+                setTimeout(() => {
+                    particle.remove();
+                }, duration * 1000);
+            }
+        }
+
+        // Auto create some particles
+        setInterval(createParticles, 2000);
+    </script>
+</body>
+
+</html>

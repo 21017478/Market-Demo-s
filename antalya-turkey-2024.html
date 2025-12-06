@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antalya, Turkey | August 2024</title>
+    <!-- NFC Gift Card: Family Vacation Dashboard -->
+    <!-- Created: 2024-05-21 -->
+    <!-- Redesigned: 2024-05-21 (Full Screen Beach + Thumbnails) -->
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --title-color: #FFFFFF;
+            --text-color: #EEEEEE;
+            --card-overlay: rgba(0, 0, 0, 0.3);
+            --card-hover: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-color);
+            background-color: #000;
+            /* Fallback */
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Fixed Full Screen Background */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* Iconic beautiful beach/turkey water background */
+            background-image: url('https://images.unsplash.com/photo-1519817914152-22d216bb9170?q=80&w=1500&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.85);
+            /* Slightly darken for text readability */
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        /* Main Scrollable Content */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            padding: 40px 20px 60px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* Header Section */
+        header {
+            margin-bottom: 2rem;
+            animation: slideDown 1s ease-out;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 2.2rem;
+            color: var(--title-color);
+            margin-bottom: 5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .date-line {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Intro Passage */
+        .intro-passage {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.15);
+            /* Glass morphism */
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 2.5rem;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+            opacity: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Album Grid */
+        .album-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* 2 columns */
+            gap: 15px;
+            width: 100%;
+        }
+
+        /* Album Thumbnail Card */
+        .album-card {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            /* Square thumbnails */
+            border-radius: 12px;
+            overflow: hidden;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            background-color: #333;
+            /* Loading state */
+        }
+
+        .album-card:hover,
+        .album-card:active {
+            transform: scale(1.03);
+        }
+
+        /* Card Background Image */
+        .card-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .album-card:hover .card-bg {
+            transform: scale(1.1);
+        }
+
+        /* Card Label Overlay */
+        .card-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: left;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 50%;
+        }
+
+        .card-icon-small {
+            font-size: 1.2rem;
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Stagger Delays */
+        .album-card:nth-child(1) {
+            animation-delay: 0.7s;
+        }
+
+        .album-card:nth-child(2) {
+            animation-delay: 0.8s;
+        }
+
+        .album-card:nth-child(3) {
+            animation-delay: 0.9s;
+        }
+
+        .album-card:nth-child(4) {
+            animation-delay: 1.0s;
+        }
+
+        .album-card:nth-child(5) {
+            animation-delay: 1.1s;
+        }
+
+        .album-card:nth-child(6) {
+            animation-delay: 1.2s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Full Screen Background -->
+    <div class="bg-container">
+        <div class="bg-overlay"></div>
+    </div>
+
+    <div class="content-wrapper">
+        <header>
+            <h1>Antalya, Turkey</h1>
+            <div class="date-line">August 2024</div>
+        </header>
+
+        <div class="intro-passage">
+            "Sun, sea, and unforgettable moments in beautiful Antalya. From thrilling water sports to peaceful beach
+            days, every moment was an adventure we'll cherish forever."
+        </div>
+
+        <div class="album-grid">
+            <!-- 1. Beach Days -->
+            <a href="https://photos.app.goo.gl/6JYQ9bwqZGtFCJ9Z9" class="album-card" target="_blank">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop"
+                    class="card-bg" alt="Beach">
+                <div class="card-label">Beach Days <span class="card-icon-small">🏖️</span></div>
+            </a>
+
+            <!-- 2. Historic Sites (Formerly 3) -->
+            <a href="https://photos.app.goo.gl/6JYQ9bwqZGtFCJ9Z9" class="album-card" target="_blank">
+                <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=400&auto=format&fit=crop"
+                    class="card-bg" alt="Ruins">
+                <div class="card-label">Old Town <span class="card-icon-small">🏛️</span></div>
+            </a>
+
+            <!-- 3. Family Moments (Formerly 6) -->
+            <a href="https://photos.app.goo.gl/6JYQ9bwqZGtFCJ9Z9" class="album-card" target="_blank">
+                <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=400&auto=format&fit=crop"
+                    class="card-bg" alt="Family">
+                <div class="card-label">Family <span class="card-icon-small">❤️</span></div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // No inline scripts needed
+    </script>
+</body>
+
+</html>
